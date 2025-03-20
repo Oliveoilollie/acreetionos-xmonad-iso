@@ -1,0 +1,25 @@
+name: Test Build, possibly add ISO support
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Arch Linux Docker container
+        uses: docker://archlinux:latest
+
+      - name: Run build script
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace archlinux:latest bash build.sh
+
